@@ -1,0 +1,30 @@
+name: pipeline
+
+on:
+  push:
+    branches:
+      - main  
+  pull_request:
+    branches:
+      - main 
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run deploy
+        run: |
+          sudo docker rm -f wordpress || true
+          sudo docker run -d \
+            --name wordpress \
+            -v $(pwd)/wp-content:/var/www/html/wp-content \
+            -p 8080:80 \
+            --restart always \
+            --env-file .env \
+            wordpress:latest
+
+
