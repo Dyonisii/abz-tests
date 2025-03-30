@@ -24,7 +24,6 @@ jobs:
             -v $(pwd)/wp-content:/var/www/html/wp-content \
             -p 8080:80 \
             --restart always \
-            --env-file .env \
             wordpress:latest
 
 
